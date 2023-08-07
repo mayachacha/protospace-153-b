@@ -1,6 +1,7 @@
 class PrototypesController < ApplicationController
   before_action :authenticate_user!, only: [:new]
 
+  
   def index
     @prototypes = Prototype.includes(:user).order(created_at: :desc)
   end

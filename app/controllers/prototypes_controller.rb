@@ -1,20 +1,26 @@
 class PrototypesController < ApplicationController
+  before_action :authenticate_user!, only: [:new]
+
   def index
+    @prototypes = Prototype.includes(:user).order(created_at: :desc)
   end
 
   def new
-    @protype = Prototype.new
+    @prototype = Prototype.new
   end
 
   def create
-    Prototype.create(prototype_params)
-    redirect_to '/'
+    @prototype = Prototype.new(prototype_params)
+    if @prototype.save
+      redirect_to root_path
+    else
+      render :new
+    end
   end
 
   private
   def prototype_params
-    params.require(:protype).permit(:title, :catch_copy, :concept, :user)
+    params.require(:prototype).permit(:title, :catch_copy, :concept, :image).merge(user_id: current_user.id)
   end
-
 
 end

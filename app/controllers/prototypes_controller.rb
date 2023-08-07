@@ -1,6 +1,7 @@
 class PrototypesController < ApplicationController
   before_action :authenticate_user!, only: [:new]
 
+  
   def index
     @prototypes = Prototype.includes(:user).order(created_at: :desc)
   end
@@ -25,6 +26,7 @@ class PrototypesController < ApplicationController
   def edit
     @prototype = Prototype.find(params[:id])
   end  
+
 
   private
   def prototype_params
